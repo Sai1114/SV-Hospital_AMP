@@ -1,58 +1,50 @@
-<?php require("PHPMailer/PHPMailerAutoload.php");
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the form data from the POST request
+    $clinic = $_POST['clinic']; 
+    $doctor = $_POST['doctor']; 
+    $name = $_POST['contact-name']; 
+    $email = $_POST['contact-email']; 
+    $phone = $_POST['contact-phone']; 
+    $date = $_POST['contact-date']; 
+    $time = $_POST['contact-time']; 
 
-// ADD your Email and Name
-$recipientEmail='admin@sketchhub.co.in';
-$recipientName='Admin';
+    // Email details
+    $to = "youremail@example.com"; // Replace with your email address
+    $subject = "New Appointment Booking from $name";
+    
+    // Build the email body with the form data
+    $message = "
+    <html>
+    <head>
+    <title>Appointment Booking</title>
+    </head>
+    <body>
+    <h3>New Appointment Details</h3>
+    <p><strong>Name:</strong> $name</p>
+    <p><strong>Email:</strong> $email</p>
+    <p><strong>Phone:</strong> $phone</p>
+    <p><strong>Clinic:</strong> $clinic</p>
+    <p><strong>Doctor:</strong> $doctor</p>
+    <p><strong>Date:</strong> $date</p>
+    <p><strong>Time:</strong> $time</p>
+    </body>
+    </html>
+    ";
+    
+    // Set headers to send HTML email
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+    $headers .= "From: $email" . "\r\n";  // The sender's email
 
-//collect the posted variables into local variables before calling $mail = new mailer
-
-$senderName = $_POST['contact-name'];
-$senderPhone = $_POST['contact-phone'];
-$senderMessage= $_POST['contact-message'];
-$senderSubject = 'New Message From ' . $senderName;
-
-//Create a new PHPMailer instance
-$mail = new PHPMailer();
-
-//Set who the message is to be sent from
-$mail->setFrom($recipientEmail, $recipientName);
-//Set an alternative reply-to address
-$mail->addReplyTo($senderEmail,$senderName);
-//Set who the message is to be sent to
-$mail->addAddress(sriram.sampara@sketchhub.co.in, Admin);
-//Set the subject line
-$mail->Subject = $senderSubject;
-
-$mail->Body = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-
-$mail->MsgHTML($body);
-$mail->AddAddress($recipientEmail, $recipientName);
-
-//$mail-&gt;AddAttachment("images/phpmailer.gif"); // attachment
-//$mail-&gt;AddAttachment("images/phpmailer_mini.gif"); // attachment
-
-//now make those variables the body of the emails
-$message = '<html><body>';
-$message .= '<table rules="all" style="border:1px solid #666;width:300px;" cellpadding="10">';
-$message .= ($senderName) ? "<tr style='background: #eee;'><td><strong>Name:</strong> </td><td>" . $senderName . "</td></tr>" : '';
-$message .= ($senderEmail) ?"<tr><td><strong>Email:</strong> </td><td>" . $senderEmail . "</td></tr>" : '';
-$message .= ($senderPhone) ?"<tr><td><strong>Phone:</strong> </td><td>" . $senderPhone . "</td></tr>" : '';
-$message .= ($senderMessage) ?"<tr><td><strong>Email:</strong> </td><td>" . $senderMessage . "</td></tr>" : '';
-
-$message .= "</table>";
-$message .= "</body></html>";
-
-$mail->Body = $message;
-
-// $mail->Body="
-// Name:$senderName<br/>
-// Email: $senderEmail<br/>
-// Suburb: $senderSubject<br/>
-// Message: $senderMessage";
-
-if(!$mail->Send()) {
-	echo '<div class="alert alert-danger" role="alert">Error: '. $mail->ErrorInfo.'</div>';
+    // Send the email
+    if (mail($to, $subject, $message, $headers)) {
+        echo "Appointment booked successfully! We will get back to you soon.";
+    } else {
+        echo "There was an error while sending your email. Please try again.";
+    }
 } else {
-	echo '<div class="alert alert-success" role="alert">Thank you. We will contact you shortly.</div>';
+    // If the form is not submitted, show an error message
+    echo "Form submission error.";
 }
 ?>
