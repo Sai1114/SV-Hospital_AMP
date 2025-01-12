@@ -1,8 +1,8 @@
 <?php require("PHPMailer/PHPMailerAutoload.php");
 
 // ADD your Email and Name
-$recipientEmail='your@email';
-$recipientName='your Name';
+$recipientEmail='admin@sketchhub.co.in';
+$recipientName='Admin';
 
 //collect the posted variables into local variables before calling $mail = new mailer
 
@@ -19,7 +19,7 @@ $mail->setFrom($recipientEmail, $recipientName);
 //Set an alternative reply-to address
 $mail->addReplyTo($senderEmail,$senderName);
 //Set who the message is to be sent to
-$mail->addAddress($senderEmail, $senderName );
+$mail->addAddress(sriram.sampara@sketchhub.co.in, Admin);
 //Set the subject line
 $mail->Subject = $senderSubject;
 
