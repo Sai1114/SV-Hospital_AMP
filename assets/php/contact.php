@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $time = $_POST['contact-time']; 
 
     // Email details
-    $to = "youremail@example.com"; // Replace with your email address
+    $to = "admin@sketchhub.co.in"; // Replace with your email address
     $subject = "New Appointment Booking from $name";
     
     // Build the email body with the form data
